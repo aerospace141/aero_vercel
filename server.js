@@ -2,6 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const serverless = require("serverless-http");  // Required for Vercel
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -86,11 +88,13 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.get("/",(req,res) => {
-  res.status(200).send("hi, Its working.")
+  res.status(200).send("hi, Its working.");
 })
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
 
+module.exports = app;
+module.exports.handler = serverless(app);
